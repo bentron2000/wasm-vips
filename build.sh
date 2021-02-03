@@ -339,12 +339,14 @@ test -f "$TARGET/lib/pkgconfig/vips.pc" || (
   patch -p1 <$SOURCE_DIR/build/patches/vips-remove-orc.patch
   patch -p1 <$SOURCE_DIR/build/patches/vips-1492-emscripten.patch
   #patch -p1 <$SOURCE_DIR/build/patches/vips-1492-profiler.patch
+  # TODO(kleisauke): Discuss this patch upstream
+  patch -p1 <$SOURCE_DIR/build/patches/vips-simd.patch
   # Disable building C++ bindings, man pages, gettext po files, tools, and (fuzz-)tests
   sed -i'.bak' "/subdir('cplusplus')/{N;N;N;N;N;d;}" meson.build
   meson setup _build --prefix=$TARGET --cross-file=$MESON_CROSS --default-library=static --buildtype=release \
     -Ddeprecated=false -Dintrospection=false -Dauto_features=disabled -Dcgif=enabled -Dexif=enabled \
     -Dimagequant=enabled -Djpeg=enabled -Dlcms=enabled -Dspng=enabled -Dtiff=enabled -Dwebp=enabled \
-    -Dnsgif=true -Dppm=true -Danalyze=true -Dradiance=true
+    -Dnsgif=true -Dppm=true -Danalyze=true -Dradiance=true -Davx2=false ${DISABLE_SIMD:+-Dsse41=false}
   ninja -C _build install
 )
 

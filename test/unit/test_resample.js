@@ -279,7 +279,7 @@ describe('resample', () => {
     // distorted, but the rest should not be too bad
     const a = r.crop(50, 0, im.width - 50, im.height).gaussblur(2);
     const b = im.crop(50, 0, im.width - 50, im.height).gaussblur(2);
-    expect(a.subtract(b).abs().max()).to.be.below(40);
+    expect(a.subtract(b).abs().max()).to.be.below(50);
 
     // this was a bug at one point, strangely, if executed with debug
     // enabled
